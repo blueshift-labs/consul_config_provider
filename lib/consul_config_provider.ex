@@ -14,7 +14,7 @@ defmodule ConsulConfigProvider do
     port = System.get_env("CONSUL_PORT", "8500") |> String.to_integer()
     prefix = System.get_env("CONSUL_PREFIX", prefix)
     keys_url = "http://#{host}:#{port}/v1/kv/#{prefix}?keys=true"
-    http_module = Application.get_env(:consul_config_provider, :http_module)
+    http_module = Application.get_env(:consul_config_provider, :http_module, Client.Mojito)
 
     {:ok, body} = http_module.request(method: :get, url: keys_url, opts: [pool: false])
 

@@ -50,7 +50,7 @@ defmodule ConsulConfigProvider.MixProject do
   defp package() do
     [
       name: "consul_config_provider",
-      files: ~w(lib config doc .formatter.exs mix.exs README* LICENSE*),
+      files: ~w(lib doc .formatter.exs mix.exs README* LICENSE*),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/blueshift-labs/consul_config_provider"}
     ]
