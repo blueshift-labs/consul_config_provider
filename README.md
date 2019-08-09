@@ -1,9 +1,12 @@
 # ConsulConfigProvider
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Hex pm](http://img.shields.io/hexpm/v/consul_config_provider.svg?style=flat)](https://hex.pm/packages/consul_config_provider)
+[![hexdocs.pm](https://img.shields.io/badge/docs-latest-green.svg?style=flat)](https://hexdocs.pm/consul_config_provider/)
+
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `consul_config_provider` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `consul_config_provider` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -13,9 +16,7 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/consul_config_provider](https://hexdocs.pm/consul_config_provider).
+The docs can be found at [https://hexdocs.pm/consul_config_provider](https://hexdocs.pm/consul_config_provider).
 
 ### Sample Usage
 
