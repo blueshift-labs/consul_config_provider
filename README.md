@@ -11,10 +11,12 @@ The package can be installed by adding `consul_config_provider` to your list of 
 ```elixir
 def deps do
   [
-    {:consul_config_provider, "~> 0.1.0"}
+    {:consul_config_provider, "~> 0.1.0"},
+    {:mojito, "~> 0.3.0"},
   ]
 end
 ```
+* Only add in mojito if you want to use the default http behaviour and not define your own client
 
 The docs can be found at [https://hexdocs.pm/consul_config_provider](https://hexdocs.pm/consul_config_provider).
 
