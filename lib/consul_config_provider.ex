@@ -30,41 +30,7 @@ defmodule ConsulConfigProvider do
       end)
       |> Enum.map(
         &Task.async(fn ->
-          url = "http://#{host}:#{port}/v1/kv/#{prefix}/#{&1}"
-
-          {:ok, body} = http_module.request(method: :get, url: url, opts: [pool: false])
-
-          key_val =
-            body
-            |> Jason.decode!()
-            |> hd()
-            |> Map.get("Value")
-            |> Base.decode64!()
-
-          new_config =
-            &1
-            |> Path.extname()
-            |> case do
-              ".json" ->
-                key_val |> Jason.decode!() |> Map.to_list()
-
-              ".yml" ->
-                key_val |> YamlElixir.read_from_string!(maps_as_keywords: true)
-
-              ".yaml" ->
-                key_val |> YamlElixir.read_from_string!(maps_as_keywords: true)
-
-              _ ->
-                raise "unsupported config format"
-            end
-            |> Enum.map(fn {string, val} -> {String.to_atom(string), val} end)
-
-          config_prefix =
-            &1
-            |> Path.rootname()
-            |> String.to_atom()
-
-          {config_prefix, new_config}
+          get_consul_key(http_module, host, port, prefix, &1)
         end)
       )
       |> Enum.map(&Task.await/1)
@@ -82,7 +48,44 @@ defmodule ConsulConfigProvider do
 
     Config.Reader.merge(
       config,
-      [{app_name, app_configs}] ++ deps_configs
+      [{app_name, app_configs} | deps_configs]
     )
+  end
+
+  defp get_consul_key(http_module, host, port, prefix, key_name) do
+    url = "http://#{host}:#{port}/v1/kv/#{prefix}/#{key_name}"
+    {:ok, body} = http_module.request(method: :get, url: url, opts: [pool: false])
+
+    key_val =
+      body
+      |> Jason.decode!()
+      |> hd()
+      |> Map.get("Value")
+      |> Base.decode64!()
+
+    new_config =
+      key_name
+      |> Path.extname()
+      |> case do
+        ".json" ->
+          key_val |> Jason.decode!() |> Map.to_list()
+
+        ".yml" ->
+          key_val |> YamlElixir.read_from_string!(maps_as_keywords: true)
+
+        ".yaml" ->
+          key_val |> YamlElixir.read_from_string!(maps_as_keywords: true)
+
+        _ ->
+          raise "unsupported config format"
+      end
+      |> Enum.map(fn {string, val} -> {String.to_atom(string), val} end)
+
+    config_prefix =
+      key_name
+      |> Path.rootname()
+      |> String.to_atom()
+
+    {config_prefix, new_config}
   end
 end
