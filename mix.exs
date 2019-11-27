@@ -4,7 +4,7 @@ defmodule ConsulConfigProvider.MixProject do
   def project do
     [
       app: :consul_config_provider,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -35,7 +35,7 @@ defmodule ConsulConfigProvider.MixProject do
   defp deps do
     [
       {:jason, "~> 1.0"},
-      {:mojito, "~> 0.3.0", optional: true},
+      {:mojito, "~> 0.6.0", optional: true},
       {:yaml_elixir, "~> 2.3"},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:mox, "~> 0.5", only: :test},
