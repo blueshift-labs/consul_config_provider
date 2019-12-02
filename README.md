@@ -12,7 +12,7 @@ The package can be installed by adding `consul_config_provider` to your list of 
 def deps do
   [
     {:consul_config_provider, "~> 0.1.0"},
-    {:mojito, "~> 0.3.0"},
+    {:mojito, "~> 0.6.0"},
   ]
 end
 ```
