@@ -79,7 +79,7 @@ defmodule ConsulConfigProvider do
         _ ->
           raise "unsupported config format"
       end
-      |> Enum.map(fn {string, val} -> {String.to_atom(string), val} end)
+      |> string_atoms()
 
     config_prefix =
       key_name
@@ -87,5 +87,23 @@ defmodule ConsulConfigProvider do
       |> String.to_atom()
 
     {config_prefix, new_config}
+  end
+
+  defp string_atoms(list, acc \\ [])
+
+  defp string_atoms([], acc) do
+    Enum.reverse(acc)
+  end
+
+  defp string_atoms([{str, val} | rest], acc) when is_binary(str) and is_list(val) do
+    string_atoms(rest, [{String.to_atom(str), string_atoms(val)} | acc])
+  end
+
+  defp string_atoms([{str, val} | rest], acc) when is_binary(str) do
+    string_atoms(rest, [{String.to_atom(str), val} | acc])
+  end
+
+  defp string_atoms([item | rest], acc) do
+    string_atoms(rest, [item | acc])
   end
 end
