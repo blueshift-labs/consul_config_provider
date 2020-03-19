@@ -15,6 +15,7 @@ defmodule ConsulConfigProvider do
     prefix = System.get_env("CONSUL_PREFIX", prefix)
     keys_url = "http://#{host}:#{port}/v1/kv/#{prefix}?keys=true"
     http_module = Application.get_env(:consul_config_provider, :http_module, Client.Mojito)
+    transformer_module = Application.get_env(:consul_config_provider, :transformer_module, nil)
 
     {:ok, body} = http_module.request(method: :get, url: keys_url, opts: [pool: false])
 
@@ -38,11 +39,23 @@ defmodule ConsulConfigProvider do
     applications = Application.spec(app_name, :applications) || []
 
     {deps_configs, app_configs} =
-      Enum.reduce(consul_configs, {[], []}, fn {key, _} = config, {deps_configs, app_configs} ->
-        if key in applications do
-          {[config | deps_configs], app_configs}
-        else
-          {deps_configs, [config | app_configs]}
+      Enum.reduce(consul_configs, {[], []}, fn {key, value} = config,
+                                               {deps_configs, app_configs} ->
+        config =
+          case transformer_module do
+            nil -> config
+            _ -> transformer_module.transform(config)
+          end
+
+        cond do
+          key in applications ->
+            {[config | deps_configs], app_configs}
+
+          key == app_name ->
+            {deps_configs, Keyword.merge(app_configs, value)}
+
+          true ->
+            {deps_configs, [config | app_configs]}
         end
       end)
 
