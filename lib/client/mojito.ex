@@ -1,6 +1,6 @@
-defmodule Client.Mojito do
+defmodule ConsulConfigProvider.Client.Mojito do
   @moduledoc "Http client using mojito"
-  @behaviour Http
+  @behaviour ConsulConfigProvider.Http
   @compile {:inline, request: 1}
 
   @impl true
