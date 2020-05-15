@@ -11,8 +11,8 @@ The package can be installed by adding `consul_config_provider` to your list of 
 ```elixir
 def deps do
   [
-    {:consul_config_provider, "~> 0.1.0"},
-    {:mojito, "~> 0.6.0"},
+    {:consul_config_provider, "~> 0.1.4"},
+    {:mojito, "~> 0.6.0"}, # default implmentation for http client
   ]
 end
 ```
@@ -37,6 +37,42 @@ releases: [
     ]
   ]
 ],
+```
+
+### Transformer
+- You can also implement an optional transformer behaviour to change the form of your configs.
+- This is helpful for interopt with erlang modules that might have different opinions about things
+
+```elixir
+defmodule Example.Config do
+  @behaviour ConsulConfigProvider.Transformer
+
+  @impl true
+  def transform({:erlkaf, [clients: [producer: [client_options: client_options]]]}) do
+    default_client_options =
+      Application.get_env(:erlkaf, :clients, [])
+      |> Keyword.get(:producer, [])
+      |> Keyword.get(:client_options, [])
+
+    {:erlkaf,
+     [
+       clients: [
+         producer: [
+           type: :producer,
+           client_options: Keyword.merge(default_client_options, client_options)
+         ]
+       ]
+     ]}
+  end
+
+  @impl true
+  def transform(config), do: config
+end
+```
+
+Then in your configs:
+```elixir
+config :consul_config_provider, transformer_module: Example.Config
 ```
 
 ### Information
