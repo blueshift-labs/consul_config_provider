@@ -1,7 +1,7 @@
 # General application configuration
 import Config
 
-config :consul_config_provider, :http_module, Client.Mojito
+config :consul_config_provider, :http_module, ConsulConfigProvider.Client.Mojito
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -1,3 +1,3 @@
 ExUnit.start()
 
-Mox.defmock(HttpMock, for: Http)
+Mox.defmock(ConsulConfigProvider.HttpMock, for: ConsulConfigProvider.Http)

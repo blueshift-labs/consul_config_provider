@@ -33,7 +33,7 @@ defmodule ConsulConfigProviderTest do
         |> Jason.encode!()
 
 
-      expect(HttpMock, :request, 2, fn args ->
+      expect(ConsulConfigProvider.HttpMock, :request, 2, fn args ->
         url = Keyword.get(args, :url)
 
         case String.contains?(url, "?keys=true") do
