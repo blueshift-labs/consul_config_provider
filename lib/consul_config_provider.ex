@@ -84,10 +84,10 @@ defmodule ConsulConfigProvider do
           key_val |> Jason.decode!() |> Map.to_list()
 
         ".yml" ->
-          key_val |> YamlElixir.read_from_string!(maps_as_keywords: true)
+          key_val |> YamlElixir.read_from_string!(maps_as_keywords: true, atoms: true)
 
         ".yaml" ->
-          key_val |> YamlElixir.read_from_string!(maps_as_keywords: true)
+          key_val |> YamlElixir.read_from_string!(maps_as_keywords: true, atoms: true)
 
         _ ->
           raise "unsupported config format"
