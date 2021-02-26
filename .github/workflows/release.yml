@@ -19,4 +19,5 @@ jobs:
         with:
           otp-version: '23.2'
           elixir-version: '1.11.3'
+      - run: mix deps.get
       - run: mix hex.publish --yes --organization blueshift
