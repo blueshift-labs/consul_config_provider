@@ -52,7 +52,8 @@ defmodule ConsulConfigProvider.MixProject do
       name: "consul_config_provider",
       files: ~w(lib doc .formatter.exs mix.exs README* LICENSE*),
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/blueshift-labs/consul_config_provider"}
+      links: %{"GitHub" => "https://github.com/blueshift-labs/consul_config_provider"},
+      source_url: "https://github.com/blueshift-labs/consul_config_provider"
     ]
   end
 end
