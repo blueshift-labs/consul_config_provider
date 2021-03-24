@@ -34,12 +34,12 @@ defmodule ConsulConfigProvider.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:jason, "~> 1.0"},
-      {:mojito, "~> 0.6.0", optional: true},
-      {:yaml_elixir, "~> 2.3"},
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
+      {:jason, "~> 1.2"},
+      {:mojito, "~> 0.7", optional: true},
       {:mox, "~> 0.5", only: :test},
-      {:stream_data, "~> 0.1", only: :test}
+      {:stream_data, "~> 0.1", only: :test},
+      {:yaml_elixir, "~> 2.6"}
     ]
   end
 
