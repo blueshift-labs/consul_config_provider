@@ -4,17 +4,24 @@ defmodule ConsulConfigProvider do
   @dialyzer {:nowarn_function, load: 2}
 
   @impl true
-  def init(%{prefix: prefix, app_name: app_name} = consul_config)
-      when is_binary(prefix) and is_atom(app_name),
-      do: consul_config
+  def init(%{prefix: prefix} = consul_config) when is_binary(prefix) do
+    consul_config
+  end
 
   @impl true
-  def load(config, %{prefix: prefix, app_name: app_name}) do
+  def load(config, %{prefix: prefix}) do
     host = System.get_env("CONSUL_HOST", "localhost")
     port = System.get_env("CONSUL_PORT", "8500") |> String.to_integer()
     prefix = System.get_env("CONSUL_PREFIX", prefix)
     keys_url = "http://#{host}:#{port}/v1/kv/#{prefix}?keys=true"
-    http_module = Application.get_env(:consul_config_provider, :http_module, ConsulConfigProvider.Client.Mojito)
+
+    http_module =
+      Application.get_env(
+        :consul_config_provider,
+        :http_module,
+        ConsulConfigProvider.Client.Mojito
+      )
+
     transformer_module = Application.get_env(:consul_config_provider, :transformer_module, nil)
 
     {:ok, body} = http_module.request(method: :get, url: keys_url, opts: [pool: false])
@@ -36,33 +43,18 @@ defmodule ConsulConfigProvider do
       )
       |> Enum.map(&Task.await/1)
 
-    applications = Application.spec(app_name, :applications) || []
-
-    {deps_configs, app_configs} =
-      Enum.reduce(consul_configs, {[], []}, fn {key, value} = config,
-                                               {deps_configs, app_configs} ->
-        config =
-          case transformer_module do
-            nil -> config
-            _ -> transformer_module.transform(config)
-          end
-
-        cond do
-          key in applications ->
-            {[config | deps_configs], app_configs}
-
-          key == app_name ->
-            {deps_configs, Keyword.merge(app_configs, value)}
-
-          true ->
-            {deps_configs, [config | app_configs]}
+    Enum.reduce(consul_configs, config, fn cfg, acc ->
+      {key, value} =
+        case transformer_module do
+          nil -> cfg
+          _ -> transformer_module.transform(cfg)
         end
-      end)
 
-    Config.Reader.merge(
-      config,
-      [{app_name, app_configs} | deps_configs]
-    )
+      Config.Reader.merge(
+        acc,
+        [{key, value}]
+      )
+    end)
   end
 
   defp get_consul_key(http_module, host, port, prefix, key_name) do

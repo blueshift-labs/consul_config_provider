@@ -6,6 +6,8 @@ defmodule ConsulConfigProvider.Client.Mojito do
   if match?({:module, _}, Code.ensure_compiled(Mojito)) do
     @impl true
     def request(request_opts) do
+      {:ok, _} = Application.ensure_all_started(:telemetry)
+
       case Mojito.request(request_opts) do
         {:ok, %Mojito.Response{body: body}} -> {:ok, body}
         {:error, any} -> {:error, any}

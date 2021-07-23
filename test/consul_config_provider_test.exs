@@ -6,9 +6,8 @@ defmodule ConsulConfigProviderTest do
 
   setup :verify_on_exit!
 
-  property "load/2 returns a config namespaced on app_name given a prefix with configs ending in .json for non-dependency configs" do
+  property "load/2 returns the updated config" do
     check all(
-            app_name <- atom(:alphanumeric),
             prefix <- string(:alphanumeric, min_length: 1),
             config_key <- string(:alphanumeric, min_length: 1),
             config_value <- string(:alphanumeric, min_length: 1),
@@ -32,7 +31,6 @@ defmodule ConsulConfigProviderTest do
         ]
         |> Jason.encode!()
 
-
       expect(ConsulConfigProvider.HttpMock, :request, 2, fn args ->
         url = Keyword.get(args, :url)
 
@@ -47,10 +45,9 @@ defmodule ConsulConfigProviderTest do
         end
       end)
 
-      new_config = ConsulConfigProvider.load([], %{prefix: prefix, app_name: app_name})
+      new_config = ConsulConfigProvider.load([], %{prefix: prefix})
 
       assert get_in(new_config, [
-               app_name,
                String.to_atom(config_name),
                String.to_atom(config_key)
              ]) == config_value

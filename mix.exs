@@ -34,6 +34,7 @@ defmodule ConsulConfigProvider.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:telemetry, "~> 0.4"},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:jason, "~> 1.2"},
       {:mojito, "~> 0.7", optional: true},
