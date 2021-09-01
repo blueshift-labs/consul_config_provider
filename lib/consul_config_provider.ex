@@ -5,10 +5,13 @@ defmodule ConsulConfigProvider do
 
   @impl true
   def init(%{prefix: prefix} = consul_config) when is_binary(prefix) do
-    consul_config
+    dry_run = System.get_env("CONSUL_DRY_RUN") == "true"
+    %{consul_config| dry_run: dry_run}
   end
 
   @impl true
+  def load(config, %{dry_run: true}), do: config
+  
   def load(config, %{prefix: prefix}) do
     host = System.get_env("CONSUL_HOST", "localhost")
     port = System.get_env("CONSUL_PORT", "8500") |> String.to_integer()
