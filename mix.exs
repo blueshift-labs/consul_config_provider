@@ -4,7 +4,7 @@ defmodule ConsulConfigProvider.MixProject do
   def project do
     [
       app: :consul_config_provider,
-      version: "0.2.0",
+      version: "0.2.2",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
