@@ -11,6 +11,8 @@
 #### v0.2.0
 
 - Support for CONSUL_PREFIX
+- Breaking changes
+  - Changes how tranforms are done  
 
 #### v0.1.4
 
