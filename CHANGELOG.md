@@ -1,5 +1,13 @@
 ### Changelog:
 
+#### v0.2.2
+
+- hex release
+
+#### v0.2.1
+
+- allow dry run
+
 #### v0.2.0
 
 - Support for CONSUL_PREFIX
