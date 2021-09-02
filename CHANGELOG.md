@@ -1,5 +1,9 @@
 ### Changelog:
 
+#### v0.2.0
+
+- Support for CONSUL_PREFIX
+
 #### v0.1.4
 
 - Namespace modules by `ConsulConfigProvider` (https://github.com/blueshift-labs/consul_config_provider/pull/1)
