@@ -11,8 +11,8 @@ The package can be installed by adding `consul_config_provider` to your list of 
 ```elixir
 def deps do
   [
-    {:consul_config_provider, "~> 0.1.4"},
-    {:mojito, "~> 0.6.0"}, # default implmentation for http client
+    {:consul_config_provider, "~> 0.2"},
+    {:mojito, "~> 0.7"}, # default implmentation for http client
   ]
 end
 ```
