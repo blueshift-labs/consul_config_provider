@@ -16,13 +16,13 @@ defmodule ConsulConfigProvider do
     keys_url = "http://#{host}:#{port}/v1/kv/#{prefix}?keys=true"
 
     http_module =
-      Application.get_env(
-        :consul_config_provider,
-        :http_module,
-        ConsulConfigProvider.Client.Mojito
-      )
+      get_in(config, [:consul_config_provider, :http_module])
+      |> case do
+        nil -> ConsulConfigProvider.Client.Mojito
+        mod -> mod
+      end
 
-    transformer_module = Application.get_env(:consul_config_provider, :transformer_module, nil)
+    transformer_module = get_in(config, [:consul_config_provider, :transformer_module])
 
     {:ok, body} = http_module.request(method: :get, url: keys_url, opts: [pool: false])
 
