@@ -82,3 +82,9 @@ config :consul_config_provider, transformer_module: Example.Config
 * The `CONSUL_PORT` env var is used for the port to talk to consul and defaults to 8500
 * The http_module is dynamic and you can specify your own if you choose to do so. Just implement the HTTP behaviour and make your implementation return an `{:ok, json_body_binary_string}` as per the mojito example which will be the fallback. You might have to deal with coercing the input keyword list for the mojito arguments to support the client you are using, as well. You also need to set `config :consul_config_provider, :http_module, Client.YourClient` pointing to your client in your configs.
 * Dependency-related configs are namespaced with their own application name while other configs use the input app_name for their namespace
+
+## Release
+
+- Increment [mix.exs project version](https://github.com/blueshift-labs/consul_config_provider/blob/master/mix.exs#L7)
+- Create a release in the [github ui](https://github.com/blueshift-labs/consul_config_provider/releases/new)
+- Github actions will create a hex release and upload it
