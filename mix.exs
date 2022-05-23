@@ -37,10 +37,10 @@ defmodule ConsulConfigProvider.MixProject do
       {:telemetry, "~> 0.4"},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:jason, "~> 1.2"},
-      {:mojito, "~> 0.7", optional: true},
       {:mox, "~> 0.5", only: :test},
       {:stream_data, "~> 0.1", only: :test},
-      {:yaml_elixir, "~> 2.6"}
+      {:yaml_elixir, "~> 2.6"},
+      {:finch, "~> 0.12", optional: true},
     ]
   end
 
