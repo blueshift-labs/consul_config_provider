@@ -4,7 +4,7 @@ defmodule ConsulConfigProvider.MixProject do
   def project do
     [
       app: :consul_config_provider,
-      version: "0.2.3",
+      version: "0.2.4",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -34,13 +34,13 @@ defmodule ConsulConfigProvider.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:telemetry, "~> 0.4"},
-      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
-      {:jason, "~> 1.2"},
-      {:mox, "~> 0.5", only: :test},
-      {:stream_data, "~> 0.1", only: :test},
-      {:yaml_elixir, "~> 2.6"},
-      {:finch, "~> 0.12", optional: true},
+      {:telemetry, "~> 1.1"},
+      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
+      {:jason, "~> 1.3"},
+      {:mox, "~> 1.0", only: :test},
+      {:stream_data, "~> 0.5", only: :test},
+      {:yaml_elixir, "~> 2.9"},
+      {:finch, "~> 0.12", optional: true}
     ]
   end
 
