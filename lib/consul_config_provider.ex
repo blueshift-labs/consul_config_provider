@@ -18,13 +18,13 @@ defmodule ConsulConfigProvider do
     http_module =
       get_in(config, [:consul_config_provider, :http_module])
       |> case do
-        nil -> ConsulConfigProvider.Client.Mojito
+        nil -> ConsulConfigProvider.Client.Finch
         mod -> mod
       end
 
     transformer_module = get_in(config, [:consul_config_provider, :transformer_module])
 
-    {:ok, body} = http_module.request(method: :get, url: keys_url, opts: [pool: false])
+    {:ok, body} = http_module.request(method: :get, url: keys_url)
 
     consul_configs =
       body
@@ -59,7 +59,7 @@ defmodule ConsulConfigProvider do
 
   defp get_consul_key(http_module, host, port, prefix, key_name) do
     url = "http://#{host}:#{port}/v1/kv/#{prefix}/#{key_name}"
-    {:ok, body} = http_module.request(method: :get, url: url, opts: [pool: false])
+    {:ok, body} = http_module.request(method: :get, url: url)
 
     key_val =
       body
