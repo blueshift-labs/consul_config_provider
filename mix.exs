@@ -15,12 +15,7 @@ defmodule ConsulConfigProvider.MixProject do
       name: "Consul Config Provider",
       source_url: "https://github.com/blueshift-labs/consul_config_provider",
       homepage_url: "https://github.com/blueshift-labs/consul_config_provider",
-      docs: [
-        # The main page in the docs
-        main: "ConsulConfigProvider",
-        # logo: "path/to/logo.png",
-        extras: ["README.md"]
-      ]
+      docs: docs()
     ]
   end
 
@@ -51,10 +46,21 @@ defmodule ConsulConfigProvider.MixProject do
   defp package() do
     [
       name: "consul_config_provider",
-      files: ~w(lib doc .formatter.exs mix.exs README* LICENSE*),
+      files: ~w(lib doc .formatter.exs mix.exs README* LICENSE* CHANGELOG.md),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/blueshift-labs/consul_config_provider"},
       source_url: "https://github.com/blueshift-labs/consul_config_provider"
+    ]
+  end
+
+  defp docs() do
+    [
+      # The main page in the docs
+      main: "readme",
+      source_ref: "master",
+
+      # logo: "path/to/logo.png",
+      extras: ["README.md", "CHANGELOG.md"]
     ]
   end
 end
