@@ -45,10 +45,11 @@ defmodule ConsulConfigProviderTest do
         end
       end)
 
-      new_config = ConsulConfigProvider.load(
-        [consul_config_provider: Application.get_all_env(:consul_config_provider)],
-        %{prefix: prefix}
-      )
+      new_config =
+        ConsulConfigProvider.load(
+          [consul_config_provider: Application.get_all_env(:consul_config_provider)],
+          %{prefix: prefix}
+        )
 
       assert get_in(new_config, [
                String.to_atom(config_name),

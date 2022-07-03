@@ -108,6 +108,10 @@ defmodule ConsulConfigProvider do
     string_atoms(rest, [{String.to_atom(str), val} | acc])
   end
 
+  defp string_atoms([item | rest], acc) when is_list(item) do
+    string_atoms(rest, [string_atoms(item) | acc])
+  end
+
   defp string_atoms([item | rest], acc) do
     string_atoms(rest, [item | acc])
   end

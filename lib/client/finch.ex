@@ -15,7 +15,7 @@ defmodule ConsulConfigProvider.Client.Finch do
 
       headers = [{"Content-Type", "application/json"}]
       pool_opts = %{default: [max_idle_time: 60_000, size: 10, count: 1]}
-      finch_req = Finch.build(method, url, headers, nil, [pools: pool_opts])
+      finch_req = Finch.build(method, url, headers, nil, pools: pool_opts)
       {:ok, %Finch.Response{body: body}} = Finch.request(finch_req, ConsulConfigDefaultHTTPClient)
       {:ok, body}
     end
